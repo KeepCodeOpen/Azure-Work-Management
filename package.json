@@ -1,0 +1,227 @@
+{
+	"name": "azure-work-management",
+	"displayName": "Azure Work Management",
+	"description": "Integrates Azure work items into VS Code.",
+	"publisher": "MelodicDevelopment",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/MelodicDevelopment"
+	},
+	"author": {
+		"name": "Rick Hopkins",
+		"email": "rick.hopkins@gmail.com",
+		"url": "https://dev.to/melodicdevelopment"
+	},
+	"icon": "resources/azure-devops-128.png",
+	"version": "1.0.7",
+	"engines": {
+		"vscode": "^1.59.0"
+	},
+	"categories": [
+		"Other",
+		"Azure"
+	],
+	"keywords": [
+		"azure",
+		"work management",
+		"bug",
+		"work item",
+		"devops",
+		"boards"
+	],
+	"activationEvents": [
+		"onView:azure-work-management.open-boards",
+		"onView:azure-work-management.open-backlogs"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"configuration": [
+			{
+				"title": "Azure Work Management",
+				"properties": {
+					"azure-work-management.organization": {
+						"type": "string",
+						"default": null,
+						"description": "The Azure organization."
+					},
+					"azure-work-management.personal-access-token": {
+						"type": "string",
+						"default": null,
+						"description": "The Azure personal access token."
+					},
+					"azure-work-management.project": {
+						"type": "string",
+						"default": null,
+						"description": "The Azure project."
+					},
+					"azure-work-management.team": {
+						"type": "string",
+						"default": null,
+						"description": "The Azure team."
+					},
+					"azure-work-management.iteration": {
+						"type": "string",
+						"default": null,
+						"description": "The iteration you would like to display work items for. You can run the Set Iteration command to get values to populate this setting."
+					}
+				}
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "azure-work-management-boards",
+					"title": "Azure Work Management",
+					"icon": "resources/azure-devops.svg"
+				}
+			]
+		},
+		"views": {
+			"azure-work-management-boards": [
+				{
+					"id": "azure-work-management.open-boards",
+					"name": "Boards",
+					"contextualTitle": "Boards",
+					"icon": "resources/azure-devops.svg"
+				},
+				{
+					"id": "azure-work-management.open-backlogs",
+					"name": "BackLogs",
+					"contextualTitle": "BackLogs",
+					"visibility": "collapsed"
+				}
+			]
+		},
+		"viewsWelcome": [
+			{
+				"view": "azure-work-management.open-boards",
+				"contents": "In order to use the Azure Work Management extension you must set some default settings.\n[Open Settings](command:azure-work-management.open-config-settings)\n[Set Iteration](command:azure-work-management.set-iteration)"
+			},
+			{
+				"view": "azure-work-management.open-backlogs",
+				"contents": "In order to use the Azure Work Management extension you must set some default settings.\n[Open Settings](command:azure-work-management.open-config-settings)\n[Set Iteration](command:azure-work-management.set-iteration)"
+			}
+		],
+		"commands": [
+			{
+				"command": "azure-work-management.open-config-settings",
+				"title": "Azure Work Management: Open Configuration Settings",
+				"icon": {
+					"light": "resources/light/settings.svg",
+					"dark": "resources/dark/settings.svg"
+				}
+			},
+			{
+				"command": "azure-work-management.refresh-boards",
+				"title": "Azure Work Management: Refresh Boards",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "azure-work-management.refresh-backlogs",
+				"title": "Azure Work Management: Refresh Backlogs",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "azure-work-management.set-iteration",
+				"title": "Azure Work Management: Set Iteration",
+				"icon": {
+					"light": "resources/light/iteration.svg",
+					"dark": "resources/dark/iteration.svg"
+				}
+			},
+			{
+				"command": "azure-work-management.open-work-item",
+				"title": "Azure Work Management: Open Work Item",
+				"icon": {
+					"light": "resources/light/info.svg",
+					"dark": "resources/dark/info.svg"
+				}
+			},
+			{
+				"command": "azure-work-management.edit-work-item",
+				"title": "Azure Work Management: Edit Work Item",
+				"icon": {
+					"light": "resources/light/edit.svg",
+					"dark": "resources/dark/edit.svg"
+				}
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "azure-work-management.refresh-boards",
+					"when": "view == azure-work-management.open-boards",
+					"group": "navigation"
+				},
+				{
+					"command": "azure-work-management.set-iteration",
+					"when": "view == azure-work-management.open-boards",
+					"group": "navigation"
+				},
+				{
+					"command": "azure-work-management.open-config-settings",
+					"when": "view == azure-work-management.open-boards",
+					"group": "navigation"
+				},
+				{
+					"command": "azure-work-management.refresh-backlogs",
+					"when": "view == azure-work-management.open-backlogs",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "azure-work-management.open-work-item",
+					"when": "view == azure-work-management.open-boards && viewItem == workItem",
+					"group": "inline"
+				},
+				{
+					"command": "azure-work-management.edit-work-item",
+					"when": "view == azure-work-management.open-boards && viewItem == workItem",
+					"group": "inline"
+				},
+				{
+					"command": "azure-work-management.open-work-item",
+					"when": "view == azure-work-management.open-backlogs && viewItem == workItem",
+					"group": "inline"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run package",
+		"compile": "webpack",
+		"watch": "webpack --watch",
+		"package": "webpack --mode production --devtool hidden-source-map",
+		"test-compile": "tsc -p ./",
+		"test-watch": "tsc -watch -p ./",
+		"pretest": "npm run test-compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.59.0",
+		"@types/glob": "^7.1.3",
+		"@types/mocha": "^8.2.2",
+		"@types/node": "14.x",
+		"eslint": "^7.27.0",
+		"@typescript-eslint/eslint-plugin": "^4.26.0",
+		"@typescript-eslint/parser": "^4.26.0",
+		"glob": "^7.1.7",
+		"mocha": "^8.4.0",
+		"typescript": "^4.3.2",
+		"vscode-test": "^1.5.2",
+		"ts-loader": "^9.2.2",
+		"webpack": "^5.38.1",
+		"webpack-cli": "^4.7.0"
+	},
+	"dependencies": {
+		"axios": "^0.21.1"
+	}
+}
